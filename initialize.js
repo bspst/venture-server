@@ -1,12 +1,24 @@
-var express = require('express');
-var app = express();
+console.log('Starting server');
+var WebSocketServer = require('ws').Server,
+	wss = new WebSocketServer({port: (process.env.PORT || 5000)}),
+	venture = require('./venture.js');//,
+	//firebase = require('firebase');
 
-app.set('port', (process.env.PORT || 5000));
-
-app.get('/', function(request, response) {
-	//response.render('pages/index');
+/*
+firebase.initializeApp({
+	serviceAccount: JSON.parse(process.env.firebaseSA),
+	databaseURL: process.env.firebaseDB
 });
 
-app.listen(app.get('port'), function() {
-	console.log('Node app is running on port', app.get('port'));
-});
+var db = {
+	conn: null,
+	firebase: firebase,
+	connect: function() {
+		this.conn = this.firebase.database();
+	}
+};
+*/
+
+venture.init(wss);
+wss.on('connection', venture.ws.connection);
+console.log('Server started');
