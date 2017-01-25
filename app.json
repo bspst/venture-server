@@ -1,8 +1,8 @@
 {
   "name": "ProjectVenture Server",
   "description": "Simple Websocket Server",
-  "repository": "https://github.com/heroku/node-js-getting-started",
+  "repository": "https://bitbucket.org/MorningPine/venture-server",
   "logo": "http://node-js-sample.herokuapp.com/node.svg",
-  "keywords": ["node", "express", "static"],
+  "keywords": ["game"],
   "image": "heroku/nodejs"
 }
