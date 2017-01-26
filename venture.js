@@ -1,4 +1,5 @@
 global.v = {};
+v.state = {};
 
 require('./modules/utils.js');
 require('./modules/ws.js');
