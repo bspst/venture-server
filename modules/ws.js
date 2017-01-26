@@ -9,4 +9,4 @@ v.ws.connection = function(ws) {
 	var wsId = v.utils.makeGUID();
 	ws.venture = {"guid": wsId};
 	v.sendPacket(ws, "connection", "success", {id: wsId});
-}
+};

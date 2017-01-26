@@ -7,4 +7,4 @@ v.utils.makeGUID = function() {
 	}
 	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
 		s4() + '-' + s4() + s4() + s4();
-}
+};
