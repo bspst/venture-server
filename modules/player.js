@@ -59,13 +59,13 @@ v.player.control.getPos = function(guid, callback) {
 		pos.b = ds.child('loc/b').val();
 		callback(pos);
 	});
-}
+};
 
 // Sets the coordinates of a player
 // Returns nothing
 v.player.control.setPos = function(guid, pos) {
 	v.db.get().ref('players').child(guid).child('loc').set(pos);
-}
+};
 
 // Moves a player if within acceptable movement speed
 // Returns nothing
@@ -75,4 +75,4 @@ v.player.control.move = function(guid, pos) {
 			v.player.setPos(guid, pos);
 		}
 	});
-}
+};

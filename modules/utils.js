@@ -24,7 +24,7 @@ v.utils.distance = function(a, b) {
 		Math.pow(a[y] - b[y], 2) +
 		Math.pow(a[z] - b[z], 2)
 	);
-}
+};
 
 v.utils.hash = {};
 
