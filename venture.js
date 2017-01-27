@@ -2,6 +2,7 @@ global.v = {};
 v.state = {};
 
 require('./modules/db.js');
+
 require('./modules/container.js');
 require('./modules/player.js');
 require('./modules/utils.js');

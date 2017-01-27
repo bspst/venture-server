@@ -48,13 +48,15 @@ v.player.inventory.setContainerGUID = function(guid, containerGUID) {
 v.player.control = {};
 
 // Gets the coordinates of a player
-// Returns a JSON object containing 'x', 'y', and 'z'.
+// Returns a JSON object containing 'x', 'y', 'z', 'a' (yaw), and 'b' (pitch).
 v.player.control.getPos = function(guid, callback) {
 	v.db.get().ref("players").child(guid).once("value").then(function(ds) {
 		var pos = {};
 		pos.x = ds.child("loc/x").val();
 		pos.y = ds.child("loc/y").val();
 		pos.z = ds.child("loc/z").val();
+		pos.a = ds.child("loc/a").val();
+		pos.b = ds.child("loc/b").val();
 		callback(pos);
 	});
 }
@@ -63,4 +65,14 @@ v.player.control.getPos = function(guid, callback) {
 // Returns nothing
 v.player.control.setPos = function(guid, pos) {
 	v.db.get().ref("players").child(guid).child("loc").set(pos);
+}
+
+// Moves a player if within acceptable movement speed
+// Returns nothing
+v.player.control.move = function(guid, pos) {
+	v.player.control.getPos(guid, function(oldpos) {
+		if(v.utils.distance(oldpos, pos) < 100) { // TODO: Change
+			v.player.setPos(guid, pos);
+		}
+	});
 }
