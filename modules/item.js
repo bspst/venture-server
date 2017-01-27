@@ -6,7 +6,7 @@ v.item = {};
 // Fetches an item's attributes
 // Returns a JavaScript object containing the item's attributes.
 v.item.getInfo = function(guid) {
-	
+	return v.db.get().ref("items").ref(guid).val();
 };
 
 // Creates an empty item

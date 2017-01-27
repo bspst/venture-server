@@ -1,7 +1,7 @@
 global.v = {};
 v.state = {};
 
-require('./modules/firebase.js');
+require('./modules/db.js');
 require('./modules/utils.js');
 require('./modules/ws.js');
 
