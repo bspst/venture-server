@@ -27,4 +27,4 @@ v.player.inventory.getContainerGUID = function(guid) {
 // Returns true on success, false on failure.
 v.player.inventory.setContainerGUID = function(guid, containerGUID) {
 	
-}
+};
