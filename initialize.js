@@ -5,18 +5,18 @@ var WebSocketServer = require('ws').Server,
 	fbAdmin = require('firebase-admin'),
 	adminCred = null;
 
-if(process.env.debug == "1") {
-	adminCred = "../ServiceAccount.json";
+if(process.env.debug == '1') {
+	adminCred = '../ServiceAccount.json';
 } else {
 	adminCred = JSON.parse(process.env.firebaseSA);
 }
 
 fbAdmin.initializeApp({
 	credential: fbAdmin.credential.cert(adminCred),
-	databaseURL: "https://projectventure-fb408.firebaseio.com"
+	databaseURL: 'https://projectventure-fb408.firebaseio.com'
 });
 
 venture.init(wss, fbAdmin);
 wss.on('connection', venture.ws.connection);
 
-v.d("Server started!");
+v.d('Server started!');

@@ -1,6 +1,7 @@
 /**
  * Utils - various tools and utilities
  */
+var crypto = require('crypto');
 v.utils = {};
 
 // Generates a random GUID
@@ -24,3 +25,11 @@ v.utils.distance = function(a, b) {
 		Math.pow(a[z] - b[z], 2)
 	);
 }
+
+v.utils.hash = {};
+
+// Calculates the hashes of a string
+// Returns a hex-digested string
+v.utils.hash = function(algo, val) {
+	return crypto.createHash(algo).update(val).digest('hex');
+};

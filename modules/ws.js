@@ -13,17 +13,20 @@ v.ws.connection = function(ws) {
 		v.state.pendingDisconnect[ws.venture.guid] = new Date().getTime() + 10000;
 	});
 	var wsId = v.utils.makeGUID();
-	ws.venture = {"guid": wsId};
-	v.sendPacket(ws, "connection", "success", {id: wsId});
+	ws.venture = {'guid': wsId};
+	v.sendPacket(ws, 'connection', 'success', {id: wsId});
 };
 
 // Fired whenever a client sends a message
 v.ws.msg = function(ws, msg) {
-	if(msg.startsWith("{")) {
+	if(msg.startsWith('{')) {
 		try {
 			var d = JSON.parse(msg);
+			if(d.s == 'auth') {
+				
+			}
 		} catch(ex) {
-			v.ws.send(ws, "packet", "fail", "Invalid JSON");
+			v.ws.send(ws, 'packet', 'fail', 'Invalid JSON');
 			return;
 		}
 	} else {
@@ -34,5 +37,5 @@ v.ws.msg = function(ws, msg) {
 // Sends a structured message to a client
 // Does not return any value.
 v.ws.send = function(ws, subj, status, data) {
-	ws.send(JSON.stringify({"s": subj, "t": status, "d": data}));
+	ws.send(JSON.stringify({'s': subj, 't': status, 'd': data}));
 };

@@ -18,7 +18,7 @@ v.init = function(wss, firebase) {
 // Outputs string to console and sends it to the DB
 v.d = function(d) {
 	console.log(d);
-	v.db.get().ref("debug").set(d);
+	v.db.get().ref('debug').set(d);
 };
 
 module.exports = v;
