@@ -28,6 +28,7 @@ v.item.create = function() {
 	var guid = v.utils.makeGUID();
 	v.db.get().ref("items").child(guid).set({
 		"name": "Item",
+		"owner": "00000000-0000-0000-0000-000000000000",
 		"type": 0,
 		"weight": 0
 	});
@@ -35,7 +36,7 @@ v.item.create = function() {
 };
 
 // Destroys an item and removes it from its container
-// Returns true on success, false on failure.
-v.item.destroy = function(guid, callback) {
-	
+// Does not return any value.
+v.item.destroy = function(guid) {
+	v.db.get().ref("items").child(guid).set(null);
 };
