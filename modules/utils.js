@@ -26,8 +26,6 @@ v.utils.distance = function(a, b) {
 	);
 };
 
-v.utils.hash = {};
-
 // Calculates the hashes of a string
 // Returns a hex-digested string
 v.utils.hash = function(algo, val) {

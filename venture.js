@@ -6,6 +6,7 @@ require('./modules/db.js');
 require('./modules/container.js');
 require('./modules/player.js');
 require('./modules/utils.js');
+require('./modules/auth.js');
 require('./modules/item.js');
 require('./modules/ws.js');
 
