@@ -8,17 +8,7 @@ v.item = {};
 v.item.getInfo = function(guid) {
 	v.db.get().ref('items').child(guid).once('value')
 		.then(function(ds) {
-			var info = {};
-			info.name = ds.child('name').val;
-			info.type = ds.child('type').val;
-			info.weight = ds.child('weight').val;
-			info.stats = {};
-			info.stats.atk = ds.child('stats/atk').val;
-			info.stats.def = ds.child('stats/def').val;
-			info.stats.max_dur = ds.child('stats/max_dur').val;
-			info.stats.current_dur = ds.child('stats/current_dur').val;
-			
-			callback(info);
+			callback(ds.val());
 		});
 };
 
