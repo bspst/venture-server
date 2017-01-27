@@ -13,7 +13,7 @@ v.ws.connection = function(ws) {
 		v.state.pendingDisconnect[ws.venture.guid] = new Date().getTime() + 10000;
 	});
 	var wsId = v.utils.makeGUID();
-	ws.venture = {'guid': wsId};
+	ws.venture = {'guid': wsId, 'playerID': null};
 	v.sendPacket(ws, 'connection', 'success', {id: wsId});
 };
 
@@ -23,7 +23,14 @@ v.ws.msg = function(ws, msg) {
 		try {
 			var d = JSON.parse(msg);
 			if(d.s == 'auth') {
-				
+				v.auth.login(d.d.user, d.d.pass, function(status) {
+					if(status === false) {
+						v.ws.send(ws, d.s, false, 'Wrong username or password');
+					} else {
+						v.ws.send(ws, d.s, true, status);
+						ws.venture.playerID = status;
+					}
+				});
 			}
 		} catch(ex) {
 			v.ws.send(ws, 'packet', 'fail', 'Invalid JSON');
