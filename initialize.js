@@ -2,23 +2,20 @@ console.log('Starting server');
 var WebSocketServer = require('ws').Server,
 	wss = new WebSocketServer({port: (process.env.PORT || 5000)}),
 	venture = require('./venture.js');//,
-	//firebase = require('firebase');
+	fbAdmin = require('firebase-admin'),
+	adminCred = null;
 
-/*
-firebase.initializeApp({
-	serviceAccount: JSON.parse(process.env.firebaseSA),
-	databaseURL: process.env.firebaseDB
+if(process.env.debug == "1") {
+	adminCred = "../ServiceAccount.json";
+} else {
+	adminCred = JSON.parse(process.env.firebaseSA);
+}
+
+fbAdmin.initializeApp({
+	credential: fbAdmin.credential.cert(adminCred),
+	databaseURL: "https://projectventure-fb408.firebaseio.com"
 });
 
-var db = {
-	conn: null,
-	firebase: firebase,
-	connect: function() {
-		this.conn = this.firebase.database();
-	}
-};
-*/
-
-venture.init(wss);
+venture.init(wss, fbAdmin);
 wss.on('connection', venture.ws.connection);
 console.log('Server started');

@@ -12,7 +12,8 @@
 	"dependencies": {
 		"ws": "*",
 		"express": "*",
-		"firebase": "*"
+		"firebase": "*",
+		"firebase-admin": "*"
 	},
 	"repository": {
 		"type": "git",
