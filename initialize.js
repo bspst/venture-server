@@ -17,6 +17,5 @@ fbAdmin.initializeApp({
 });
 
 venture.init(wss, fbAdmin);
-wss.on('connection', venture.ws.connection);
 
 v.d('Server started!');

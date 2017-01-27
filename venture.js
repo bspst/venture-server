@@ -13,6 +13,7 @@ require('./modules/ws.js');
 // Initialize components if necessary
 v.init = function(wss, firebase) {
 	v.wss = wss;
+	v.wss.on('connection', venture.ws.connection);
 	v.db.firebase = firebase;
 };
 

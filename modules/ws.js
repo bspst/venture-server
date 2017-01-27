@@ -42,7 +42,13 @@ v.ws.msg = function(ws, msg) {
 };
 
 // Sends a structured message to a client
-// Does not return any value.
 v.ws.send = function(ws, subj, status, data) {
 	ws.send(JSON.stringify({'s': subj, 't': status, 'd': data}));
+};
+
+// Broadcasts an unstructured message to all connected clients
+v.ws.broadcast = function(d) {
+	v.wss.clients.forEach(function each(client) {
+		client.send(d);
+	});
 };
