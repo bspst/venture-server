@@ -1,5 +1,5 @@
 /**
- * Player - 
+ * Player - player functions
  */
 v.player = {};
 
@@ -19,8 +19,10 @@ v.player.getName = function(guid, callback) {
 
 // Fetches the character model of a player
 // Returns the name of the model on success, false on failure.
-v.player.getModel = function(guid) {
-	
+v.player.getModel = function(guid, callback) {
+	v.db.get().ref("players").child("model").once("value").then(function(ds) {
+		callback(ds.val());
+	});
 };
 
 // Sets the character model of a player
@@ -42,3 +44,23 @@ v.player.inventory.getContainerGUID = function(guid, callback) {
 v.player.inventory.setContainerGUID = function(guid, containerGUID) {
 	
 };
+
+v.player.control = {};
+
+// Gets the coordinates of a player
+// Returns a JSON object containing 'x', 'y', and 'z'.
+v.player.control.getPos = function(guid, callback) {
+	v.db.get().ref("players").child(guid).once("value").then(function(ds) {
+		var pos = {};
+		pos.x = ds.child("loc/x").val();
+		pos.y = ds.child("loc/y").val();
+		pos.z = ds.child("loc/z").val();
+		callback(pos);
+	});
+}
+
+// Sets the coordinates of a player
+// Returns nothing
+v.player.control.setPos = function(guid, pos) {
+	v.db.get().ref("players").child(guid).child("loc").set(pos);
+}
