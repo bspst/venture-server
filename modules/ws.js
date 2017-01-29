@@ -21,8 +21,10 @@ v.ws.connection = function(ws) {
 
 // Fired whenever a client sends a message
 v.ws.msg = function(ws, msg) {
+	if(msg === null || msg === undefined || msg === "") return;
 	v.d("WS MSG");
-	if(msg.startsWith("{")) {
+	v.d(msg);
+	if(msg.toString().startsWith("{")) {
 		try {
 			var d = JSON.parse(msg);
             if(d.s == "login") {
