@@ -12,10 +12,20 @@ v.db.get = function() {
 	return v.db.firebase.database();
 };
 
+// Pull data from Firebase
+v.db.pull = function() {
+	v.db.get().ref("/").once("value").then(function(ds) {
+		v.state.cache = ds.val();
+		v.initialized = true;
+		v.l("Done caching database");
+		v.db.push();
+	});
+}
+
 // Push local changes to Firebase
 v.db.push = function() {
 	v.l("Pushing local changes...");
-	v.db.get().set(v.state.cache, function() {
+	v.db.get().ref("/").set(v.state.cache, function() {
 		v.l("Push complete!");
 
 		var diff = new Date().getTime() - v.db.lastPush;
@@ -24,4 +34,9 @@ v.db.push = function() {
 		else
 			setTimeout(v.db.push, v.db.pushInterval - diff);
 	});
+};
+
+// Force push
+v.db.pushf = function() {
+	v.db.get().ref("/").set(v.state.cache);
 };

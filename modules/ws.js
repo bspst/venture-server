@@ -9,8 +9,9 @@ v.ws.connection = function(ws) {
 	v.d("New WS connection");
 
 	if(!v.initialized) {
-		ws.close();
 		v.d("Not finished initializing");
+		ws.send("WAIT");
+		ws.close();
 	}
 
 	ws.on("message", function(msg) {
@@ -22,7 +23,6 @@ v.ws.connection = function(ws) {
 	var wsId = v.utils.makeGUID();
 	ws.venture = {"guid": wsId, "playerID": null};
 	v.ws.send(ws, "connection", true, { id: wsId });
-
 };
 
 // Fired whenever a client sends a message
@@ -35,27 +35,25 @@ v.ws.msg = function(ws, msg) {
 		try {
 			var d = JSON.parse(msg);
             if(d.s == "login") {
-                v.auth.login(d.d.user, d.d.pass, function(status) {
-                    if(status === false) {
-                        v.ws.send(ws, d.s, false, "Wrong username or password");
-                    } else {
-                        v.ws.send(ws, d.s, true, status);
-                        ws.venture.playerID = status;
+                status = v.auth.login(d.d.user, d.d.pass);
+                if(status === false) {
+                    v.ws.send(ws, d.s, false, "Wrong username or password");
+                } else {
+                    v.ws.send(ws, d.s, true, status);
+                    ws.venture.playerID = status;
 
-						v.d("User " + status + " logged in");
-                    }
-                });
+					v.d("User " + status + " logged in");
+                }
 			} else if(d.s == "register") {
-				v.auth.register(d.d.user, d.d.pass, function(status) {
-					if(status === false) {
-						v.ws.send(ws, d.s, false, "Username taken");
-					} else {
-						v.ws.send(ws, d.s, true, status);
-						ws.venture.playerID = status;
+				status = v.auth.register(d.d.user, d.d.pass);
+				if(status === false) {
+					v.ws.send(ws, d.s, false, "Username taken");
+				} else {
+					v.ws.send(ws, d.s, true, status);
+					ws.venture.playerID = status;
 
-						v.d("User " + status + " registered");
-					}
-				});
+					v.d("User " + status + " registered");
+				}
 			} else if(d.s == "uinfo") {
 				// TODO: return user info
 			}

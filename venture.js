@@ -24,11 +24,7 @@ v.init = function(wss, firebase) {
 
 	// Cache entire DB to memory (probably not a good idea, but meh.)
 	// 10k players = ~16gb RAM (rough estimate)
-	v.db.get().once("value").then(function(ds) {
-		v.state.cache = ds.val();
-		v.initialized = true;
-		v.db.push();
-	});
+	v.db.pull();
 };
 
 // Outputs string to console and sends it to the DB

@@ -19,16 +19,11 @@ v.utils.makeGUID = function() {
 // Calculates the distance between two {x, y, z} formatted coordinates
 // Returns a float
 v.utils.distance = function(a, b) {
-	v.d("Calculating distance between A and B");
-	v.d(utils.inspect(a));
-	v.d(utils.inspect(b));
-	var d = Math.sqrt(
-		Math.pow(a[x] - b[x], 2) +
-		Math.pow(a[y] - b[y], 2) +
-		Math.pow(a[z] - b[z], 2)
+	return Math.sqrt(
+		Math.pow(a.x - b.x, 2) +
+		Math.pow(a.y - b.y, 2) +
+		Math.pow(a.z - b.z, 2)
 	);
-	v.d("It's " + d);
-	return d;
 };
 
 // Calculates the hashes of a string

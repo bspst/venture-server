@@ -33,7 +33,7 @@ v.container.items.list = function(guid, callback) {
 	var items = [];
 	for(var i in v.state.cache.items) {
 		if(v.state.cache.items[i].container == guid)
-			items[] = i;
+			items.push(i);
 	}
 	return items;
 };
