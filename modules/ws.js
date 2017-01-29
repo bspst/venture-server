@@ -67,8 +67,25 @@ v.ws.msg = function(ws, msg) {
 		else if(msg.startsWith("m")) {
 			// Player movement
 			var d = msg.substring(1).split(" ");
-			v.d("Moving... " + JSON.stringify(d));
-			v.player.control.move(ws.venture.playerID, { x: d[0], y: d[1], z: d[2], a: d[3], b: d[4] });
+			//v.d("Moving... " + JSON.stringify(d));
+			var newloc = {
+				x: parseInt(d[0]),
+				y: parseInt(d[1]),
+				z: parseInt(d[2]),
+				a: parseInt(d[3]),
+				b: parseInt(d[4])
+			};
+
+			if(v.player.control.move(ws.venture.playerID, newloc)) {
+				v.wss.clients.forEach(function each(client) {
+					if(client.venture.playerID === null) continue;
+					else if(client.venture.playerID === ws.venture.playerID) continue;
+					else if(v.utils.distance(v.state.cache.players[client.venture.playerID].loc, newloc) < 1000) { // TODO: Change
+						// Broadcast new location to players within 1000 units
+						client.send("m" + ws.venture.playerID + msg.substring(1));
+					}
+				});
+			}
 		}
 	}
 };

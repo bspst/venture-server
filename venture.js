@@ -40,7 +40,7 @@ v.init = function(firebase) {
 v.d = function(d) {
 	if(process.env.debug == "1") {
 		console.log("[" + new Date().toLocaleString() + " D] " + d);
-		v.db.get().ref("debug").set(d);
+		//v.db.get().ref("debug").set(d);
 	}
 };
 
