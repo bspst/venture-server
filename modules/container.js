@@ -5,10 +5,10 @@ v.container = {};
 
 // Creates an empty container
 // Returns the new container's GUID on success, false on failure.
-v.container.create = function() {
+v.container.create = function(name) {
 	var guid = v.utils.makeGUID();
 	v.db.get().ref("containers").child(guid).set({
-		"name": "Container",
+		"name": name,
 		"capacity": 50
 	});
 	return guid;

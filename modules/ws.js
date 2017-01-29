@@ -35,7 +35,7 @@ v.ws.msg = function(ws, msg) {
                         v.ws.send(ws, d.s, true, status);
                         ws.venture.playerID = status;
 
-						v.d("User " + status + " logged in");
+						v.l("User " + status + " logged in");
                     }
                 });
 			} else if(d.s == "register") {
@@ -46,7 +46,7 @@ v.ws.msg = function(ws, msg) {
 						v.ws.send(ws, d.s, true, status);
 						ws.venture.playerID = status;
 
-						v.d("User " + status + " registered");
+						v.l("User " + status + " registered");
 					}
 				});
 			}

@@ -21,4 +21,4 @@ fbAdmin.initializeApp({
 console.log("Initializing Venture Server");
 venture.init(wss, fbAdmin);
 
-v.d("Server started!");
+v.l("Server started!");

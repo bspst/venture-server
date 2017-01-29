@@ -6,7 +6,7 @@ v.auth = {};
 // Checks if credentials are valid
 // Returns user's GUID on success, false on failure.
 v.auth.login = function(user, pass, callback) {
-	v.d("Login attempt: " + user);
+	v.l("Login attempt: " + user);
 	v.db.get().ref("players").orderByChild("name").equalTo(user).once("value").then(function(ds) {
 		if(ds.val() === null) {
 			// User doesn"t exist
@@ -23,21 +23,21 @@ v.auth.login = function(user, pass, callback) {
 		v.d("Verifying password");
 		if(v.utils.hash("sha512", pass + data.auth.salt) === data.auth.pass) {
 			// Login success
-			v.d("User " + user + " logged in.");
+			v.l("User " + user + " logged in.");
 			callback(guid);
 			return;
 		} else {
-			v.d("Login failed");
+			v.l("Login failed for user " + user);
 			callback(false);
 			return;
 		}
 	});
 };
 
-// Creates a new user if it doesn"t exist
+// Creates a new user if it doesn't exist
 // Returns user's GUID on success, false on failure.
 v.auth.register = function(user, pass, callback) {
-	v.d("Registration attempt: " + user);
+	v.l("Registration attempt: " + user);
 	v.db.get().ref("players").orderByChild("name").equalTo(user).once("value").then(function(ds, s) {
 		if(ds.val() === null) {
 			v.d("User doesn't exist, continuing on...");
@@ -58,7 +58,7 @@ v.auth.register = function(user, pass, callback) {
 						pass: hash,
 						salt: salt
 					},
-					inventory: v.container.create(),
+					inventory: v.container.create("Inventory"),
 					loc: {
 						x: 0, y: 0, z: 0, a: 0, b: 0
 					},
