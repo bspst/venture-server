@@ -19,7 +19,7 @@ v.init = function(wss, firebase) {
 
 // Outputs string to console and sends it to the DB
 v.d = function(d) {
-	console.log(d);
+	console.log("[" + new Date().toLocaleString() + "] " + d);
 	v.db.get().ref("debug").set(d);
 };
 
