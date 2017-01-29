@@ -14,7 +14,7 @@ v.ws.connection = function(ws) {
 	});
 	var wsId = v.utils.makeGUID();
 	ws.venture = {"guid": wsId, "playerID": null};
-	v.ws.send(ws, "connection", "success", { id: wsId });
+	v.ws.send(ws, "connection", true, { id: wsId });
 
 	v.d("New WS connection");
 };
