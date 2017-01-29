@@ -27,6 +27,6 @@ v.db.push = function() {
 };
 
 // Force push
-v.db.pushf = function() {
-	v.db.get().ref("/").set(v.state.cache);
+v.db.pushf = function(callback) {
+	v.db.get().ref("/").set(v.state.cache, callback);
 };
