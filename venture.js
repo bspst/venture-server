@@ -1,3 +1,7 @@
+/**
+ * Project Venture Server
+ * Copyright (c) 2017 Hizkia Felix
+ */
 global.v = {};
 v.state = {};
 
