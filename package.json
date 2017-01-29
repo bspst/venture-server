@@ -13,8 +13,7 @@
 		"ws": "*",
 		"express": "*",
 		"firebase": "*",
-		"firebase-admin": "*",
-		"secure-random": "*"
+		"firebase-admin": "*"
 	},
 	"repository": {
 		"type": "git",
