@@ -58,17 +58,6 @@ v.player.control.setPos = function(guid, pos) {
 // Moves a player if within acceptable movement speed
 // Returns nothing
 v.player.control.move = function(guid, pos) {
-	/*
-	v.d("Checking previous position");
-	v.player.control.getPos(guid, function(oldpos) {
-		v.d("Measuring distance");
-		if(v.utils.distance(oldpos, pos) < 100) { // TODO: Change
-			v.d("Moving player");
-			v.player.setPos(guid, pos);
-		} else {
-			v.d("Player " + guid + " is moving too quickly!");
-		}
-	});*/
 	if(v.utils.distance(v.state.cache.players[guid].loc, pos) < 100) {
 		v.player.control.setPos(guid, pos);
 	}

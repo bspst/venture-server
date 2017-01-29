@@ -1,7 +1,5 @@
 console.log("Starting server");
-var //WebSocketServer = require("ws").Server,
-	//wss = new WebSocketServer({ port: (process.env.PORT || 5000) }),
-	venture = require("./venture.js"),
+var venture = require("./venture.js"),
 	fbAdmin = require("firebase-admin"),
 	adminCred = null;
 

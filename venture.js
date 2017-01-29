@@ -26,8 +26,12 @@ v.init = function(firebase) {
 		v.state.cache = ds.val();
 		v.initialized = true;
 		v.l("Done caching database");
+
+		// Start WS Server
 		v.wss = new require("ws").Server({ port: (process.env.PORT || 5000) });
 		v.wss.on("connection", v.ws.connection);
+
+		// Start DB pushes
 		v.db.push();
 	});
 };

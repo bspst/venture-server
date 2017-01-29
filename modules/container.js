@@ -25,11 +25,6 @@ v.container.items = {};
 // List items present in a container
 // Returns an array of item GUIDs
 v.container.items.list = function(guid, callback) {
-	/*v.db.get().ref("items").orderByChild("container").equalTo(guid).once("value").then(function(ds) {
-		ds.forEach(function(itemSnapshot) {
-			// TODO: implement
-		});
-	});*/
 	var items = [];
 	for(var i in v.state.cache.items) {
 		if(v.state.cache.items[i].container == guid)
