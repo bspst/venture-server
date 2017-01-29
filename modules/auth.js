@@ -58,6 +58,9 @@ v.auth.register = function(user, pass, callback) {
 						pass: hash,
 						salt: salt
 					},
+					info: {
+						joined: new Date().getTime()
+					},
 					inventory: v.container.create("Inventory"),
 					loc: {
 						x: 0, y: 0, z: 0, a: 0, b: 0
