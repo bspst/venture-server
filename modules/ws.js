@@ -54,6 +54,8 @@ v.ws.msg = function(ws, msg) {
 		}
 	} else {
 		// TODO
+		if(msg == "ping")
+			ws.send("pong");
 	}
 };
 
