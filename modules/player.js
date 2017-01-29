@@ -5,24 +5,20 @@ v.player = {};
 
 // Gets a value from the player's data
 // Returns an object
-v.player.getValue = function(guid, key, callback) {
-	v.db.get().ref("players").child(guid).once("value").then(function(ds) {
-		callback(ds.child(key).val());
-	});
+v.player.getValue = function(guid, key) {
+	return v.state.cache.players[guid][key];
 }
 
 // Fetches the player's name
 // Returns a string
-v.player.getName = function(guid, callback) {
-	v.player.getValue(guid, "name", callback);
+v.player.getName = function(guid) {
+	return v.player.getValue(guid, "name");
 }
 
 // Fetches the character model of a player
 // Returns the name of the model on success, false on failure.
-v.player.getModel = function(guid, callback) {
-	v.db.get().ref("players").child("model").once("value").then(function(ds) {
-		callback(ds.val());
-	});
+v.player.getModel = function(guid) {
+	return v.state.cache.players[guid].model;
 };
 
 // Sets the character model of a player
@@ -70,9 +66,14 @@ v.player.control.setPos = function(guid, pos) {
 // Moves a player if within acceptable movement speed
 // Returns nothing
 v.player.control.move = function(guid, pos) {
+	v.d("Checking previous position");
 	v.player.control.getPos(guid, function(oldpos) {
+		v.d("Measuring distance");
 		if(v.utils.distance(oldpos, pos) < 100) { // TODO: Change
+			v.d("Moving player");
 			v.player.setPos(guid, pos);
+		} else {
+			v.d("Player " + guid + " is moving too quickly!");
 		}
 	});
 };

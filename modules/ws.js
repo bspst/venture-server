@@ -66,6 +66,12 @@ v.ws.msg = function(ws, msg) {
 	} else {
 		if(msg == "ping")
 			ws.send("pong");
+		else if(msg.startsWith("m")) {
+			// Player movement
+			var d = msg.substring(1).split(" ");
+			v.d("Moving... " + JSON.stringify(d));
+			v.player.control.move(ws.venture.playerID, { x: d[0], y: d[1], z: d[2], a: d[3], b: d[4] });
+		}
 	}
 };
 

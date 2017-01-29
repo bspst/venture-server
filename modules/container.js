@@ -7,17 +7,17 @@ v.container = {};
 // Returns the new container's GUID on success, false on failure.
 v.container.create = function(name) {
 	var guid = v.utils.makeGUID();
-	v.db.get().ref("containers").child(guid).set({
+	v.state.cache.containers[guid] = {
 		"name": name,
 		"capacity": 50
-	});
+	};
 	return guid;
 };
 
 // Destroys a container with the specified GUID
 // Returns true on success, false on failure.
 v.container.destroy = function(guid) {
-	v.db.get().ref("containers").child(guid).set(null);
+	delete v.state.cache.containers;
 };
 
 v.container.items = {};
@@ -25,11 +25,17 @@ v.container.items = {};
 // List items present in a container
 // Returns an array of item GUIDs
 v.container.items.list = function(guid, callback) {
-	v.db.get().ref("items").orderByChild("container").equalTo(guid).once("value").then(function(ds) {
+	/*v.db.get().ref("items").orderByChild("container").equalTo(guid).once("value").then(function(ds) {
 		ds.forEach(function(itemSnapshot) {
 			// TODO: implement
 		});
-	});
+	});*/
+	var items = [];
+	for(var i in v.state.cache.items) {
+		if(v.state.cache.items[i].container == guid)
+			items[] = i;
+	}
+	return items;
 };
 
 // Moves an item into a container.
