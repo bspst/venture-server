@@ -14,13 +14,14 @@ v.ws.connection = function(ws) {
 	});
 	var wsId = v.utils.makeGUID();
 	ws.venture = {'guid': wsId, 'playerID': null};
-	v.sendPacket(ws, 'connection', 'success', { id: wsId });
+	v.ws.send(ws, 'connection', 'success', { id: wsId });
 
 	v.d("New WS connection");
 };
 
 // Fired whenever a client sends a message
 v.ws.msg = function(ws, msg) {
+	v.d("WS MSG");
 	if(msg.startsWith('{')) {
 		try {
 			var d = JSON.parse(msg);
