@@ -6,28 +6,39 @@ v.auth = {};
 // Checks if credentials are valid
 // Returns user's GUID on success, false on failure.
 v.auth.login = function(user, pass, callback) {
-	v.db.get().ref('players').orderByChild('name').equalTo(user).once('value').then(function(ds) {
+	v.d("Login attempt: " + user);
+	v.db.get().ref("players").orderByChild("name").equalTo(user).once("value").then(function(ds) {
 		if(ds.val() === null) {
-			// User doesn't exist
+			// User doesn"t exist
+			v.d("User doesn't exist, cancelling login");
 			callback(false);
 			return;
 		}
+		
+		v.d("User found, fetching data");
 		var player = ds.val(),
-			guid = Object.keys(data)[0],
+			guid = Object.keys(player)[0],
 			data = player[guid];
 		
-		if(v.utils.hash('sha512', pass + data.auth.salt) == data.auth.pass) {
+		v.d("Verifying password");
+		if(v.utils.hash("sha512", pass + data.auth.salt) === data.auth.pass) {
 			// Login success
+			v.d("User " + user + " logged in.");
 			callback(guid);
-		} else callback(false);
+			return;
+		} else {
+			v.d("Login failed");
+			callback(false);
+			return;
+		}
 	});
 };
 
-// Creates a new user if it doesn't exist
+// Creates a new user if it doesn"t exist
 // Returns user's GUID on success, false on failure.
 v.auth.register = function(user, pass, callback) {
 	v.d("Registration attempt: " + user);
-	v.db.get().ref('players').orderByChild('name').equalTo(user).once('value').then(function(ds, s) {
+	v.db.get().ref("players").orderByChild("name").equalTo(user).once("value").then(function(ds, s) {
 		if(ds.val() === null) {
 			v.d("User doesn't exist, continuing on...");
 			if(!/^[a-zA-Z0-9_]{3,64}$/.test(user)) {
@@ -36,13 +47,13 @@ v.auth.register = function(user, pass, callback) {
 				return;
 			}
 			
-			require('crypto').randomBytes(256, function(err, buf) {
+			require("crypto").randomBytes(256, function(err, buf) {
 				var guid = v.utils.makeGUID(),
-					salt = v.utils.hash('sha256', pass + buf.toString('hex')),
-					hash = v.utils.hash('sha512', pass + salt);
+					salt = v.utils.hash("sha256", pass + buf.toString("hex")),
+					hash = v.utils.hash("sha512", pass + salt);
 			
 				v.d("Registering user " + user + ", GUID " + guid);
-				v.db.get().ref('players').child(guid).set({
+				v.db.get().ref("players").child(guid).set({
 					auth: {
 						pass: hash,
 						salt: salt
@@ -51,7 +62,7 @@ v.auth.register = function(user, pass, callback) {
 					loc: {
 						x: 0, y: 0, z: 0, a: 0, b: 0
 					},
-					model: 'default',
+					model: "default",
 					name: user,
 					stats: {
 						current_hp: 50,

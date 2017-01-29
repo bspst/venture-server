@@ -1,7 +1,7 @@
 /**
  * Utils - various tools and utilities
  */
-var crypto = require('crypto');
+var crypto = require("crypto");
 v.utils = {};
 
 // Generates a random GUID
@@ -12,8 +12,8 @@ v.utils.makeGUID = function() {
 			.toString(16)
 			.substring(1);
 	}
-	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-		s4() + '-' + s4() + s4() + s4();
+	return s4() + s4() + "-" + s4() + "-" + s4() + "-" +
+		s4() + "-" + s4() + s4() + s4();
 };
 
 // Calculates the distance between two {x, y, z} formatted coordinates
@@ -29,5 +29,5 @@ v.utils.distance = function(a, b) {
 // Calculates the hashes of a string
 // Returns a hex-digested string
 v.utils.hash = function(algo, val) {
-	return crypto.createHash(algo).update(val).digest('hex');
+	return crypto.createHash(algo).update(val).digest("hex");
 };

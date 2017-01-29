@@ -6,15 +6,15 @@ v.state.pendingDisconnect = {};
 
 // Fired whenever a client connects
 v.ws.connection = function(ws) {
-	ws.on('message', function(msg) {
+	ws.on("message", function(msg) {
 		v.ws.msg(ws, msg);
 	});
-	ws.on('close', function(e) {
+	ws.on("close", function(e) {
 		v.state.pendingDisconnect[ws.venture.guid] = new Date().getTime() + 10000;
 	});
 	var wsId = v.utils.makeGUID();
-	ws.venture = {'guid': wsId, 'playerID': null};
-	v.ws.send(ws, 'connection', 'success', { id: wsId });
+	ws.venture = {"guid": wsId, "playerID": null};
+	v.ws.send(ws, "connection", "success", { id: wsId });
 
 	v.d("New WS connection");
 };
@@ -22,13 +22,13 @@ v.ws.connection = function(ws) {
 // Fired whenever a client sends a message
 v.ws.msg = function(ws, msg) {
 	v.d("WS MSG");
-	if(msg.startsWith('{')) {
+	if(msg.startsWith("{")) {
 		try {
 			var d = JSON.parse(msg);
-            if(d.s == 'login') {
+            if(d.s == "login") {
                 v.auth.login(d.d.user, d.d.pass, function(status) {
                     if(status === false) {
-                        v.ws.send(ws, d.s, false, 'Wrong username or password');
+                        v.ws.send(ws, d.s, false, "Wrong username or password");
                     } else {
                         v.ws.send(ws, d.s, true, status);
                         ws.venture.playerID = status;
@@ -36,10 +36,10 @@ v.ws.msg = function(ws, msg) {
 						v.d("User " + status + " logged in");
                     }
                 });
-			} else if(d.s == 'register') {
+			} else if(d.s == "register") {
 				v.auth.register(d.d.user, d.d.pass, function(status) {
 					if(status === false) {
-						v.ws.send(ws, d.s, false, 'Username taken');
+						v.ws.send(ws, d.s, false, "Username taken");
 					} else {
 						v.ws.send(ws, d.s, true, status);
 						ws.venture.playerID = status;
@@ -49,7 +49,7 @@ v.ws.msg = function(ws, msg) {
 				});
 			}
 		} catch(ex) {
-			v.ws.send(ws, 'packet', 'fail', 'Invalid JSON');
+			v.ws.send(ws, "packet", "fail", "Invalid JSON");
 			return;
 		}
 	} else {
@@ -59,9 +59,9 @@ v.ws.msg = function(ws, msg) {
 
 // Sends a structured message to a client
 v.ws.send = function(ws, subj, status, data) {
-	ws.send(JSON.stringify({ 's': subj, 't': status, 'd': data }));
+	ws.send(JSON.stringify({ "s": subj, "t": status, "d": data }));
 
-	v.d("Sent WS msg: " + subj + ", " + status + ", " + data + " to " + ws.venture.playerID);
+	v.d("sent WS msg: " + subj + ", " + status + ", " + data + " to " + ws.venture.playerID);
 };
 
 // Broadcasts an unstructured message to all connected clients
