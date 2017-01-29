@@ -70,6 +70,6 @@ v.player.control.move = function(guid, pos) {
 		}
 	});*/
 	if(v.utils.distance(v.state.cache.players[guid].loc, pos) < 100) {
-		v.player.setPos(guid, pos);
+		v.player.control.setPos(guid, pos);
 	}
 };

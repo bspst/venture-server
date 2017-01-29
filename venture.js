@@ -17,14 +17,19 @@ require("./modules/item.js");
 require("./modules/ws.js");
 
 // Initialize components if necessary
-v.init = function(wss, firebase) {
-	v.wss = wss;
-	v.wss.on("connection", v.ws.connection);
+v.init = function(firebase) {
 	v.db.firebase = firebase;
 
 	// Cache entire DB to memory (probably not a good idea, but meh.)
 	// 10k players = ~16gb RAM (rough estimate)
-	v.db.pull();
+	v.db.get().ref("/").once("value").then(function(ds) {
+		v.state.cache = ds.val();
+		v.initialized = true;
+		v.l("Done caching database");
+		v.wss = new require("ws").Server({ port: (process.env.PORT || 5000) });
+		v.wss.on("connection", v.ws.connection);
+		v.db.push();
+	});
 };
 
 // Outputs string to console and sends it to the DB

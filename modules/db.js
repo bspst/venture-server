@@ -12,16 +12,6 @@ v.db.get = function() {
 	return v.db.firebase.database();
 };
 
-// Pull data from Firebase
-v.db.pull = function() {
-	v.db.get().ref("/").once("value").then(function(ds) {
-		v.state.cache = ds.val();
-		v.initialized = true;
-		v.l("Done caching database");
-		v.db.push();
-	});
-}
-
 // Push local changes to Firebase
 v.db.push = function() {
 	v.l("Pushing local changes...");

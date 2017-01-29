@@ -1,6 +1,6 @@
 console.log("Starting server");
-var WebSocketServer = require("ws").Server,
-	wss = new WebSocketServer({ port: (process.env.PORT || 5000) }),
+var //WebSocketServer = require("ws").Server,
+	//wss = new WebSocketServer({ port: (process.env.PORT || 5000) }),
 	venture = require("./venture.js"),
 	fbAdmin = require("firebase-admin"),
 	adminCred = null;
@@ -19,6 +19,6 @@ fbAdmin.initializeApp({
 });
 
 console.log("Initializing Venture Server");
-venture.init(wss, fbAdmin);
+venture.init(fbAdmin);
 
 v.l("Server started!");
