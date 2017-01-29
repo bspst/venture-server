@@ -6,6 +6,13 @@ v.state.pendingDisconnect = {};
 
 // Fired whenever a client connects
 v.ws.connection = function(ws) {
+	v.d("New WS connection");
+
+	if(!v.initialized) {
+		ws.close();
+		v.d("Not finished initializing");
+	}
+
 	ws.on("message", function(msg) {
 		v.ws.msg(ws, msg);
 	});
@@ -16,15 +23,15 @@ v.ws.connection = function(ws) {
 	ws.venture = {"guid": wsId, "playerID": null};
 	v.ws.send(ws, "connection", true, { id: wsId });
 
-	v.d("New WS connection");
 };
 
 // Fired whenever a client sends a message
 v.ws.msg = function(ws, msg) {
 	if(msg === null || msg === undefined || msg === "") return;
+	msg = msg.toString();
 	v.d("WS MSG");
 	v.d(msg);
-	if(msg.toString().startsWith("{")) {
+	if(msg.startsWith("{")) {
 		try {
 			var d = JSON.parse(msg);
             if(d.s == "login") {
@@ -35,7 +42,7 @@ v.ws.msg = function(ws, msg) {
                         v.ws.send(ws, d.s, true, status);
                         ws.venture.playerID = status;
 
-						v.l("User " + status + " logged in");
+						v.d("User " + status + " logged in");
                     }
                 });
 			} else if(d.s == "register") {
@@ -46,16 +53,17 @@ v.ws.msg = function(ws, msg) {
 						v.ws.send(ws, d.s, true, status);
 						ws.venture.playerID = status;
 
-						v.l("User " + status + " registered");
+						v.d("User " + status + " registered");
 					}
 				});
+			} else if(d.s == "uinfo") {
+				// TODO: return user info
 			}
 		} catch(ex) {
 			v.ws.send(ws, "packet", "fail", "Invalid JSON");
 			return;
 		}
 	} else {
-		// TODO
 		if(msg == "ping")
 			ws.send("pong");
 	}

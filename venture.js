@@ -3,7 +3,9 @@
  * Copyright (c) 2017 Hizkia Felix
  */
 global.v = {};
+v.initialized = false;
 v.state = {};
+v.state.cache = {};
 
 require("./modules/db.js");
 
@@ -19,6 +21,12 @@ v.init = function(wss, firebase) {
 	v.wss = wss;
 	v.wss.on("connection", v.ws.connection);
 	v.db.firebase = firebase;
+
+	// Cache entire DB to memory (probably not a good idea, but meh.)
+	v.db.get().once("value").then(function(ds) {
+		v.state.cache = ds.val();
+		v.initialized = true;
+	});
 };
 
 // Outputs string to console and sends it to the DB
