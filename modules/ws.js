@@ -22,10 +22,19 @@ v.ws.msg = function(ws, msg) {
 	if(msg.startsWith('{')) {
 		try {
 			var d = JSON.parse(msg);
-			if(d.s == 'auth') {
-				v.auth.login(d.d.user, d.d.pass, function(status) {
+            if(d.s == 'login') {
+                v.auth.login(d.d.user, d.d.pass, function(status) {
+                    if(status === false) {
+                        v.ws.send(ws, d.s, false, 'Wrong username or password');
+                    } else {
+                        v.ws.send(ws, d.s, true, status);
+                        ws.venture.playerID = status;
+                    }
+                });
+			} else if(d.s == 'register') {
+				v.auth.register(d.d.user, d.d.pass, function(status) {
 					if(status === false) {
-						v.ws.send(ws, d.s, false, 'Wrong username or password');
+						v.ws.send(ws, d.s, false, 'Username taken');
 					} else {
 						v.ws.send(ws, d.s, true, status);
 						ws.venture.playerID = status;
