@@ -60,6 +60,8 @@ v.ws.msg = function(ws, msg) {
 				delete info.inventory;
 				delete info.loc;
 				delete info.info;
+				info.guid = d.d;
+
 				v.ws.send(ws, d.s, true, info);
 			}
 		} catch(ex) {
