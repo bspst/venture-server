@@ -55,10 +55,13 @@ v.ws.msg = function(ws, msg) {
 					v.d("User " + status + " registered");
 				}
 			} else if(d.s == "uinfo") {
-				// TODO: return user info
+				var info = v.state.cache.players[d.d];
+				delete info.auth;
+				delete info.inventory;
+				v.ws.send(ws, d.s, true, info);
 			}
 		} catch(ex) {
-			v.ws.send(ws, "packet", "fail", "Invalid JSON");
+			v.ws.send(ws, "packet", false, "Invalid JSON");
 			return;
 		}
 	} else {
