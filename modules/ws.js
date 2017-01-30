@@ -58,6 +58,8 @@ v.ws.msg = function(ws, msg) {
 				var info = v.state.cache.players[d.d];
 				delete info.auth;
 				delete info.inventory;
+				delete info.loc;
+				delete info.info;
 				v.ws.send(ws, d.s, true, info);
 			}
 		} catch(ex) {
