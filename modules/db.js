@@ -23,6 +23,8 @@ v.db.push = function() {
 			v.db.push();
 		else
 			setTimeout(v.db.push, v.db.pushInterval - diff);
+
+		v.db.lastPush = new Date().getTime();
 	});
 };
 
