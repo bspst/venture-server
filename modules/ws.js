@@ -78,8 +78,8 @@ v.ws.msg = function(ws, msg) {
 
 			if(v.player.control.move(ws.venture.playerID, newloc)) {
 				v.wss.clients.forEach(function each(client) {
-					if(client.venture.playerID === null) continue;
-					else if(client.venture.playerID === ws.venture.playerID) continue;
+					if(client.venture.playerID === null) return;
+					else if(client.venture.playerID === ws.venture.playerID) return;
 					else if(v.utils.distance(v.state.cache.players[client.venture.playerID].loc, newloc) < 1000) { // TODO: Change
 						// Broadcast new location to players within 1000 units
 						client.send("m" + ws.venture.playerID + msg.substring(1));
