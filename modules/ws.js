@@ -35,6 +35,7 @@ v.ws.msg = function(ws, msg) {
 		try {
 			var d = JSON.parse(msg);
             if(d.s == "login") {
+				// Login
                 status = v.auth.login(d.d.user, d.d.pass);
                 if(status === false) {
                     v.ws.send(ws, d.s, false, "Wrong username or password");
@@ -45,6 +46,7 @@ v.ws.msg = function(ws, msg) {
 					v.d("User " + status + " logged in");
                 }
 			} else if(d.s == "register") {
+				// Create a new account
 				status = v.auth.register(d.d.user, d.d.pass);
 				if(status === false) {
 					v.ws.send(ws, d.s, false, "Username taken");
@@ -55,6 +57,7 @@ v.ws.msg = function(ws, msg) {
 					v.d("User " + status + " registered");
 				}
 			} else if(d.s == "uinfo") {
+				// Returns public player info by GUID
 				var info = JSON.parse(JSON.stringify(v.state.cache.players[d.d])); // Forces object clone
 				delete info.auth;
 				delete info.inventory;
@@ -63,6 +66,21 @@ v.ws.msg = function(ws, msg) {
 				info.guid = d.d;
 
 				v.ws.send(ws, d.s, true, info);
+			} else if(d.s == "container") {
+				// Access container info and contents by GUID
+				if(v.state.cache.containers[d.d]) {
+					// TODO: Implement container access levels
+					if(v.state.containers[d.d].accessLevel == 0) {
+						// Container is public
+						v.ws.send(ws, d.s, true, {
+							name: v.ws.containers[d.d].name,
+							items: v.container.items.list(d.d)
+						});
+					} else if(v.state.containers[d.d].accessLevel == 1) {
+						// Private container, check if user owns it
+						// TODO
+					}
+				} else v.ws.send(ws, d.s, false, "No such container");
 			}
 		} catch(ex) {
 			v.ws.send(ws, "packet", false, ex);
