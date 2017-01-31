@@ -55,7 +55,7 @@ v.ws.msg = function(ws, msg) {
 					v.d("User " + status + " registered");
 				}
 			} else if(d.s == "uinfo") {
-				var info = v.state.cache.players[d.d];
+				var info = JSON.parse(JSON.stringify(v.state.cache.players[d.d])); // Forces object clone
 				delete info.auth;
 				delete info.inventory;
 				delete info.loc;
@@ -65,7 +65,7 @@ v.ws.msg = function(ws, msg) {
 				v.ws.send(ws, d.s, true, info);
 			}
 		} catch(ex) {
-			v.ws.send(ws, "packet", false, "Invalid JSON");
+			v.ws.send(ws, "packet", false, ex);
 			return;
 		}
 	} else {
